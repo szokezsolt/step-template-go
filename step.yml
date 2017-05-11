@@ -49,6 +49,10 @@ inputs:
       is_expand: true
       is_required: true
       value_options: []
+  - download_url: https://raw.githubusercontent.com/trapacska/step-template-go/master/misc/build.json
+    opts:
+      title: "Download URL"
+      summary: "Download URL for the JSON file"
 outputs:
   - EXAMPLE_STEP_OUTPUT:
     opts:

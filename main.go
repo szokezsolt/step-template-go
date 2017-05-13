@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
+	
 	"github.com/bitrise-io/go-utils/log"
 	"github.com/bitrise-io/go-utils/fileutil"
 	"github.com/bitrise-io/go-utils/pathutil"
@@ -16,7 +18,9 @@ type ConfigsModel struct {
 
 func createConfigsModelFromEnvs() ConfigsModel {
 	return ConfigsModel{
-		ExampleInput: os.Getenv("example_step_input"),
+		ExampleInput: 	os.Getenv("example_step_input"),
+		DownloadUrl:	os.Getenv("download_url"),
+		DownloadPth:	os.Getenv("download_path"),
 	}
 }
 
@@ -78,9 +82,13 @@ func main() {
 
 	// Main
 	
-	// downloadUrl := DOWNLOAD URL TO BE IMPORTED SOMEHOW FROM STEP.YML
-	// downloadPth := TEMPORARY DIRECTORY PATH TO BE DOWNLOADED TO
-	if err := downloadFile(downloadUrl, downloadPth); err != nil {
+	// STEP 3
+	if err := downloadFile(DownloadUrl, DownloadPth); err != nil {
 		failf("Failed to download json file, error: %s", err)
+	}
+	
+	// STEP 4 ?????????????
+	if err := json.Unmarshal([]byte(jsonLine), &result); err != nil {
+		log.Errorf("Failed to unmarshal result, error: %s", err)
 	}
 }

@@ -4,25 +4,60 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
-	
+
+	"io/ioutil"
+
 	"github.com/bitrise-io/go-utils/log"
-	"github.com/bitrise-io/go-utils/fileutil"
-	"github.com/bitrise-io/go-utils/pathutil"
 )
 
 // ConfigsModel ...
 type ConfigsModel struct {
 	ExampleInput string
-	DownloadUrl string
-	DownloadPth string
+	DownloadURL  string
+	DownloadPth  string
+}
+
+// JSONResultModel ...
+type JSONResultModel struct {
+	android Android
+	ios     IOS
+}
+
+// Android ...
+type Android struct {
+	release Release
+}
+
+// IOS ...
+type IOS struct {
+	debug Debug
+}
+
+// Release ...
+type Release struct {
+	keystore      string
+	storePassword string
+	alias         string
+	password      string
+	isPresent     bool
+}
+
+// Debug ...
+type Debug struct {
+	UID              int
+	codeSignIdentity string
+	developmentTeam  string
+	packageType      string
 }
 
 func createConfigsModelFromEnvs() ConfigsModel {
 	return ConfigsModel{
-		ExampleInput: 	os.Getenv("example_step_input"),
-		DownloadUrl:	os.Getenv("download_url"),
-		DownloadPth:	os.Getenv("download_path"),
+		ExampleInput: os.Getenv("example_step_input"),
+		DownloadURL:  os.Getenv("download_url"),
+		DownloadPth:  os.Getenv("download_path"),
 	}
 }
 
@@ -55,6 +90,11 @@ func downloadFile(downloadURL, targetPath string) error {
 	return nil
 }
 
+func failf(format string, v ...interface{}) {
+	log.Errorf(format, v...)
+	os.Exit(1)
+}
+
 func (configs ConfigsModel) print() {
 	log.Infof("Configs:")
 	log.Printf("- ExampleInput: %s", configs.ExampleInput)
@@ -83,14 +123,22 @@ func main() {
 	fmt.Println()
 
 	// Main
-	
+
 	// STEP 3
-	if err := downloadFile(DownloadUrl, DownloadPth); err != nil {
+	if err := downloadFile(configs.DownloadURL, configs.DownloadPth); err != nil {
 		failf("Failed to download json file, error: %s", err)
 	}
-	
-	// STEP 4 ?????????????
+
+	// STEP 4
+	jsonLine, err := ioutil.ReadFile(configs.DownloadPth)
+	if err != nil {
+		log.Errorf("File read error")
+	}
+	var result JSONResultModel
+
 	if err := json.Unmarshal([]byte(jsonLine), &result); err != nil {
 		log.Errorf("Failed to unmarshal result, error: %s", err)
 	}
+
+	log.Infof("%#v", result)
 }

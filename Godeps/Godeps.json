@@ -1,6 +1,6 @@
 {
-	"ImportPath": "github.com/bitrise-steplib/step-template-go",
-	"GoVersion": "go1.7",
+	"ImportPath": "github.com/szokezsolt/step-template-go",
+	"GoVersion": "go1.8",
 	"GodepVersion": "v79",
 	"Packages": [
 		"./..."

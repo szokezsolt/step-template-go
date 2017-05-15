@@ -54,7 +54,7 @@ inputs:
       summary: "Download URL for the JSON file"
       is_expand: true
       is_required: true
-  - download_path: /Users/szokezsolt/Desktop/Temp
+  - download_path: /Users/szokezsolt/Desktop/Temp/build.json
     opts:
       summary: "Download directory path for the JSON file"
       is_expand: true

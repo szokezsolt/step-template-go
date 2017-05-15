@@ -88,7 +88,7 @@ workflows:
             go get -u -v github.com/golang/lint/golint
 
   # ----------------------------------------------------------------
-  # --- Utility workflows
+  # --- Utility workflows 
   godeps-update:
     title: Godeps update
     description: |

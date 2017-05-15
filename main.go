@@ -14,6 +14,8 @@ import (
 // ConfigsModel ...
 type ConfigsModel struct {
 	ExampleInput string
+	DownloadUrl string
+	DownloadPth string
 }
 
 func createConfigsModelFromEnvs() ConfigsModel {

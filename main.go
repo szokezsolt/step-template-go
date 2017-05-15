@@ -22,35 +22,35 @@ type ConfigsModel struct {
 
 // JSONResultModel ...
 type JSONResultModel struct {
-	android Android
-	ios     IOS
+	Android AndroidModel `json:"android"`
+	Ios     IOSModel     `json:"ios"`
 }
 
-// Android ...
-type Android struct {
-	release Release
+// AndroidModel ...
+type AndroidModel struct {
+	Release ReleaseModel `json:"release"`
 }
 
-// IOS ...
-type IOS struct {
-	debug Debug
+// IOSModel ...
+type IOSModel struct {
+	Debug DebugModel `json:"debug"`
 }
 
-// Release ...
-type Release struct {
-	keystore      string
-	storePassword string
-	alias         string
-	password      string
-	isPresent     bool
+// ReleaseModel ...
+type ReleaseModel struct {
+	Keystore      string `json:"keystore"`
+	StorePassword string `json:"storePassword"`
+	Alias         string `json:"alias"`
+	Password      string `json:"password"`
+	IsPresent     bool   `json:"isPresent"`
 }
 
-// Debug ...
-type Debug struct {
-	UID              int
-	codeSignIdentity string
-	developmentTeam  string
-	packageType      string
+// DebugModel ...
+type DebugModel struct {
+	UID              int    `json:"UID"`
+	CodeSignIdentity string `json:"codeSignIdentity"`
+	DevelopmentTeam  string `json:"developmentTeam"`
+	PackageType      string `json:"packageType"`
 }
 
 func createConfigsModelFromEnvs() ConfigsModel {
